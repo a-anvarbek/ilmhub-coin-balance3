@@ -1,12 +1,4 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-
-type Language = 'en' | 'uz';
-
-interface LanguageContextType {
-  language: Language;
-  toggleLanguage: () => void;
-  t: (key: string) => string;
-}
+import { createContext, useContext, useState, useEffect } from 'react';
 
 const translations = {
   en: {
@@ -513,13 +505,13 @@ const translations = {
   }
 };
 
-const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
+const LanguageContext = createContext();
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en');
+export function LanguageProvider({ children }) {
+  const [language, setLanguage] = useState('en');
 
   useEffect(() => {
-    const savedLanguage = localStorage.getItem('ilmcoin-language') as Language;
+    const savedLanguage = localStorage.getItem('ilmcoin-language');
     if (savedLanguage) {
       setLanguage(savedLanguage);
     }
@@ -533,7 +525,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     setLanguage(prev => prev === 'en' ? 'uz' : 'en');
   };
 
-  const t = (key: string): string => {
+  const t = (key) => {
     return translations[language][key] || key;
   };
 
