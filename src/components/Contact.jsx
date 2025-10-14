@@ -17,7 +17,7 @@ import {
   Linkedin,
   CheckCircle2
 } from 'lucide-react';
-import { toast } from 'sonner@2.0.3';
+import { toast } from 'sonner';
 import { Toaster } from './ui/sonner';
 export function Contact({ onNavigate }) {
   const [formData, setFormData] = useState({

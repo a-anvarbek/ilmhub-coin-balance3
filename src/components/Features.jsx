@@ -15,6 +15,7 @@ import {
   Bell,
   CheckCircle2
 } from 'lucide-react';
+ 
 
 const mainFeatures = [
   {

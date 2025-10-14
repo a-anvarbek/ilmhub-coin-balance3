@@ -9,7 +9,6 @@ import { Contact } from './components/Contact';
 import { Dashboard } from './components/Dashboard';
 import { Leaderboard } from './components/Leaderboard';
 
-
 function AppContent() {
   const [currentPage, setCurrentPage] = useState('home');
   const [user, setUser] = useState(null);
