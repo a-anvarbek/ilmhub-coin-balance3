@@ -30,6 +30,7 @@ import { LanguageToggle } from './LanguageToggle';
 
 // Contexts
 import { useLanguage } from '../contexts/LanguageContext';
+import { useNavigate } from 'react-router-dom';
 
 const getActivityIcon = (type) => {
   switch (type) {
@@ -45,6 +46,8 @@ const getActivityIcon = (type) => {
       return Zap;
     case 'referral':
       return Gift;
+    default:
+      return CheckCircle2;
   }
 };
 
@@ -62,11 +65,15 @@ const getActivityColor = (type) => {
       return { bg: 'from-pink-400 to-pink-500', text: 'text-pink-600 dark:text-pink-400', light: 'bg-pink-50 dark:bg-pink-900/20' };
     case 'referral':
       return { bg: 'from-indigo-400 to-indigo-500', text: 'text-indigo-600 dark:text-indigo-400', light: 'bg-indigo-50 dark:bg-indigo-900/20' };
+    default:
+      return { bg: 'from-gray-400 to-gray-500', text: 'text-gray-600 dark:text-gray-400', light: 'bg-gray-50 dark:bg-gray-900/20' };
   }
 };
 
 export default function Dashboard({ user, onLogout, onNavigate }) {
   const { t } = useLanguage();
+  const navigate = useNavigate();
+
   const [filterType, setFilterType] = useState('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [windowWidth, setWindowWidth] = useState(
@@ -74,18 +81,21 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
   );
 
   useEffect(() => {
+    if (!user) {
+      navigate('/login');
+      return;
+    }
     function handleResize() {
       setWindowWidth(window.innerWidth);
     }
     window.addEventListener('resize', handleResize);
-    // Responsive sidebar open/close on resize
-    if (window.innerWidth >= 768) {
-      setSidebarOpen(false);
-    }
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+    if (window.innerWidth >= 768) setSidebarOpen(false);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [user, navigate]);
+
+  if (!user) return null; // prevent null error on refresh
+
+  const { name, email } = user;
 
   const mockActivities = [
     { id: 1, type: 'quiz', titleKey: 'activity.completedMathQuiz', coins: 150, date: '2025-10-12', categoryKey: 'category.math' },
@@ -133,6 +143,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
               transition={{ type: "spring", damping: 20 }}
               className="fixed md:sticky top-0 left-0 h-screen w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-6 z-50 overflow-y-auto theme-transition"
             >
+              {/* Sidebar content */}
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-2">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center">
@@ -140,12 +151,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
                   </div>
                   <span className="text-xl text-gray-800 dark:text-white theme-transition">IlmCoin</span>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => setSidebarOpen(false)}
-                  className="md:hidden rounded-lg"
-                >
+                <Button variant="ghost" size="icon" onClick={() => setSidebarOpen(false)} className="md:hidden rounded-lg">
                   <X className="w-5 h-5" />
                 </Button>
               </div>
@@ -156,17 +162,15 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
                     <User className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">{user.name}</p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate theme-transition">{user.email}</p>
+                    <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">{name}</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate theme-transition">{email}</p>
                   </div>
                 </div>
               </div>
 
+              {/* Navigation & toggles */}
               <nav className="space-y-2 mb-8">
-                <button
-                  onClick={() => onNavigate('home')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition"
-                >
+                <button onClick={() => onNavigate('home')} className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition">
                   <HomeIcon className="w-5 h-5" />
                   <span>{t('dashboard.home')}</span>
                 </button>
@@ -174,20 +178,9 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
                   <Coins className="w-5 h-5" />
                   <span>{t('dashboard.dashboard')}</span>
                 </button>
-                <button
-                  onClick={() => onNavigate('leaderboard')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition"
-                >
+                <button onClick={() => onNavigate('leaderboard')} className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition">
                   <Trophy className="w-5 h-5" />
                   <span>{t('leaderboard.title')}</span>
-                </button>
-                <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition">
-                  <BookOpen className="w-5 h-5" />
-                  <span>{t('dashboard.courses')}</span>
-                </button>
-                <button className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition">
-                  <User className="w-5 h-5" />
-                  <span>{t('dashboard.profile')}</span>
                 </button>
               </nav>
 
@@ -197,11 +190,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
               </div>
 
               <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 theme-transition">
-                <Button
-                  onClick={onLogout}
-                  variant="outline"
-                  className="w-full justify-start gap-3 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-700 transition-all theme-transition"
-                >
+                <Button onClick={onLogout} variant="outline" className="w-full justify-start gap-3 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-700 transition-all theme-transition">
                   <LogOut className="w-5 h-5" />
                   <span>{t('nav.logout')}</span>
                 </Button>
@@ -213,191 +202,41 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
 
       {/* Main Content */}
       <div className="flex-1 p-6 md:p-8">
-        <div className="md:hidden mb-6 flex items-center gap-4">
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setSidebarOpen(true)}
-            className="rounded-xl dark:bg-gray-800 dark:border-gray-700"
-          >
-            <Menu className="w-5 h-5" />
-          </Button>
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center">
-              <Coins className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-lg text-gray-800 dark:text-white theme-transition">IlmCoin</span>
-          </div>
-        </div>
-
-        <div className="max-w-6xl mx-auto space-y-8">
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <h1 className="text-3xl md:text-4xl text-gray-800 dark:text-white mb-2 theme-transition">{t('dashboard.welcome')} {user.name}! 👋</h1>
-            <p className="text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.subtitle')}</p>
-          </motion.div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-            >
-              <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-gradient-to-br from-blue-400 to-green-400 border-0 shadow-xl rounded-2xl text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-white/10 rounded-full -mr-8 -mt-8 sm:-mr-12 sm:-mt-12 md:-mr-16 md:-mt-16"></div>
-                <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-white/10 rounded-full -ml-12 -mb-12 sm:-ml-16 sm:-mb-16 md:-ml-24 md:-mb-24"></div>
-                <div className="relative z-10">
-                  <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                    <motion.div
-                      animate={{ rotate: [0, 360] }}
-                      transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                      className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center"
-                    >
-                      <Coins className="w-5 h-5 sm:w-6 sm:h-6" />
-                    </motion.div>
-                    <div>
-                      <p className="text-white/80 text-xs sm:text-sm">{t('dashboard.totalCoins')}</p>
-                      <motion.p
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: 0.3, type: "spring" }}
-                        className="text-2xl sm:text-3xl"
-                      >
-                        {totalCoins.toLocaleString()}
-                      </motion.p>
+        {user && (
+          <div className="max-w-6xl mx-auto space-y-8">
+            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }}>
+              <h1 className="text-3xl md:text-4xl text-gray-800 dark:text-white mb-2 theme-transition">{t('dashboard.welcome')} {name}! 👋</h1>
+              <p className="text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.subtitle')}</p>
+            </motion.div>
+            {/* Cards Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+              {/* Total Coins Card */}
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5, delay: 0.1 }}>
+                <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-gradient-to-br from-blue-400 to-green-400 border-0 shadow-xl rounded-2xl text-white relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-white/10 rounded-full -mr-8 -mt-8 sm:-mr-12 sm:-mt-12 md:-mr-16 md:-mt-16"></div>
+                  <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-white/10 rounded-full -ml-12 -mb-12 sm:-ml-16 sm:-mb-16 md:-ml-24 md:-mb-24"></div>
+                  <div className="relative z-10">
+                    <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                      <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 3, repeat: Infinity, ease: "linear" }} className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center">
+                        <Coins className="w-5 h-5 sm:w-6 sm:h-6" />
+                      </motion.div>
+                      <div>
+                        <p className="text-white/80 text-xs sm:text-sm">{t('dashboard.totalCoins')}</p>
+                        <motion.p initial={{ opacity: 0, scale: 0.5 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.3, type: "spring" }} className="text-2xl sm:text-3xl">
+                          {totalCoins.toLocaleString()}
+                        </motion.p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-1 text-xs sm:text-sm">
+                      <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span>+250 {t('dashboard.thisWeek')}</span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-xs sm:text-sm">
-                    <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
-                    <span>+250 {t('dashboard.thisWeek')}</span>
-                  </div>
-                </div>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
-                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition">
-                    <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400 theme-transition" />
-                  </div>
-                  <div>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">{t('dashboard.achievements')}</p>
-                    <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">12</p>
-                  </div>
-                </div>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">3 {t('dashboard.newMonth')}</p>
-              </Card>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
-                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition">
-                    <Star className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 dark:text-orange-400 theme-transition" />
-                  </div>
-                  <div>
-                    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">{t('dashboard.streak')}</p>
-                    <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">7 {t('dashboard.days')}</p>
-                  </div>
-                </div>
-                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.keepUp')}</p>
-              </Card>
-            </motion.div>
+                </Card>
+              </motion.div>
+            </div>
           </div>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-          >
-            <Card className="p-6 md:p-8 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl theme-transition">
-              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-                <div>
-                  <h2 className="text-2xl text-gray-800 dark:text-white mb-1 theme-transition">{t('dashboard.rewardHistory')}</h2>
-                  <p className="text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.trackAll')}</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Filter className="w-5 h-5 text-gray-400 dark:text-gray-500" />
-                  <Select value={filterType} onValueChange={setFilterType}>
-                    <SelectTrigger className="w-40 rounded-xl border-gray-200 dark:border-gray-700 dark:bg-gray-900 theme-transition">
-                      <SelectValue placeholder={t('dashboard.filterType')} />
-                    </SelectTrigger>
-                    <SelectContent className="dark:bg-gray-900 dark:border-gray-700">
-                      <SelectItem value="all">{t('dashboard.allActivities')}</SelectItem>
-                      <SelectItem value="homework">{t('dashboard.homework')}</SelectItem>
-                      <SelectItem value="quiz">{t('dashboard.quizzes')}</SelectItem>
-                      <SelectItem value="achievement">{t('dashboard.achievements')}</SelectItem>
-                      <SelectItem value="participation">{t('dashboard.participation')}</SelectItem>
-                      <SelectItem value="bonus">{t('dashboard.bonus')}</SelectItem>
-                      <SelectItem value="referral">{t('dashboard.referrals')}</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
-
-              <div className="space-y-3">
-                {filteredActivities.map((activity, index) => {
-                  const Icon = getActivityIcon(activity.type);
-                  const colors = getActivityColor(activity.type);
-                  
-                  return (
-                    <motion.div
-                      key={activity.id}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.3, delay: index * 0.05 }}
-                    >
-                      <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-all theme-transition">
-                        <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${colors.bg} flex items-center justify-center text-white flex-shrink-0`}>
-                          <Icon className="w-6 h-6" />
-                        </div>
-                        
-                        <div className="flex-1 min-w-0">
-                          <p className="text-gray-800 dark:text-white mb-1 theme-transition">{t(activity.titleKey)}</p>
-                          <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400 theme-transition">
-                            <span className="flex items-center gap-1">
-                              <Calendar className="w-3 h-3" />
-                              {formatDate(activity.date)}
-                            </span>
-                            <span className={`px-2 py-0.5 ${colors.light} ${colors.text} rounded-full text-xs theme-transition`}>
-                              {t(activity.categoryKey)}
-                            </span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center gap-2 bg-gradient-to-br from-yellow-400 to-orange-500 text-white px-4 py-2 rounded-xl shadow-md">
-                          <Star className="w-4 h-4" />
-                          <span>+{activity.coins}</span>
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })}
-              </div>
-
-              {filteredActivities.length === 0 && (
-                <div className="text-center py-12">
-                  <div className="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center mx-auto mb-4 theme-transition">
-                    <Coins className="w-8 h-8 text-gray-400 dark:text-gray-600" />
-                  </div>
-                  <p className="text-gray-600 dark:text-gray-400 theme-transition">{t('dashboard.noActivities')}</p>
-                </div>
-              )}
-            </Card>
-          </motion.div>
-        </div>
+        )}
       </div>
     </div>
   );
