@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
@@ -63,6 +63,23 @@ export function Dashboard({ user, onLogout, onNavigate }) {
   const { t } = useLanguage();
   const [filterType, setFilterType] = useState('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(
+    typeof window !== "undefined" ? window.innerWidth : 1024
+  );
+
+  useEffect(() => {
+    function handleResize() {
+      setWindowWidth(window.innerWidth);
+    }
+    window.addEventListener('resize', handleResize);
+    // Responsive sidebar open/close on resize
+    if (window.innerWidth >= 768) {
+      setSidebarOpen(false);
+    }
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const mockActivities = [
     { id: 1, type: 'quiz', titleKey: 'activity.completedMathQuiz', coins: 150, date: '2025-10-12', categoryKey: 'category.math' },
@@ -92,7 +109,7 @@ export function Dashboard({ user, onLogout, onNavigate }) {
     <div className="min-h-screen flex">
       {/* Sidebar */}
       <AnimatePresence>
-        {(sidebarOpen || window.innerWidth >= 768) && (
+        {(sidebarOpen || windowWidth >= 768) && (
           <>
             {sidebarOpen && (
               <motion.div
@@ -103,7 +120,6 @@ export function Dashboard({ user, onLogout, onNavigate }) {
                 className="fixed inset-0 bg-black/50 z-40 md:hidden"
               />
             )}
-            
             <motion.aside
               initial={{ x: -300 }}
               animate={{ x: 0 }}
@@ -218,39 +234,38 @@ export function Dashboard({ user, onLogout, onNavigate }) {
             <p className="text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.subtitle')}</p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <Card className="p-6 bg-gradient-to-br from-blue-400 to-green-400 border-0 shadow-xl rounded-2xl text-white relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full -mr-16 -mt-16"></div>
-                <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/10 rounded-full -ml-24 -mb-24"></div>
-                
+              <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-gradient-to-br from-blue-400 to-green-400 border-0 shadow-xl rounded-2xl text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-white/10 rounded-full -mr-8 -mt-8 sm:-mr-12 sm:-mt-12 md:-mr-16 md:-mt-16"></div>
+                <div className="absolute bottom-0 left-0 w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 bg-white/10 rounded-full -ml-12 -mb-12 sm:-ml-16 sm:-mb-16 md:-ml-24 md:-mb-24"></div>
                 <div className="relative z-10">
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
                     <motion.div
                       animate={{ rotate: [0, 360] }}
                       transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                      className="w-12 h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center"
+                      className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center"
                     >
-                      <Coins className="w-6 h-6" />
+                      <Coins className="w-5 h-5 sm:w-6 sm:h-6" />
                     </motion.div>
                     <div>
-                      <p className="text-white/80 text-sm">{t('dashboard.totalCoins')}</p>
+                      <p className="text-white/80 text-xs sm:text-sm">{t('dashboard.totalCoins')}</p>
                       <motion.p
                         initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 0.3, type: "spring" }}
-                        className="text-3xl"
+                        className="text-2xl sm:text-3xl"
                       >
                         {totalCoins.toLocaleString()}
                       </motion.p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 text-sm">
-                    <TrendingUp className="w-4 h-4" />
+                  <div className="flex items-center gap-1 text-xs sm:text-sm">
+                    <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
                     <span>+250 {t('dashboard.thisWeek')}</span>
                   </div>
                 </div>
@@ -262,17 +277,17 @@ export function Dashboard({ user, onLogout, onNavigate }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <Card className="p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition">
-                    <Trophy className="w-6 h-6 text-purple-600 dark:text-purple-400 theme-transition" />
+              <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition">
+                    <Trophy className="w-5 h-5 sm:w-6 sm:h-6 text-purple-600 dark:text-purple-400 theme-transition" />
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm theme-transition">{t('dashboard.achievements')}</p>
-                    <p className="text-3xl text-gray-800 dark:text-white theme-transition">12</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">{t('dashboard.achievements')}</p>
+                    <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">12</p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 theme-transition">3 {t('dashboard.newMonth')}</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">3 {t('dashboard.newMonth')}</p>
               </Card>
             </motion.div>
 
@@ -281,17 +296,17 @@ export function Dashboard({ user, onLogout, onNavigate }) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Card className="p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-12 h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition">
-                    <Star className="w-6 h-6 text-orange-600 dark:text-orange-400 theme-transition" />
+              <Card className="w-full max-w-xs p-4 sm:p-5 md:p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
+                <div className="flex items-center gap-2 sm:gap-3 mb-2 sm:mb-3">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 md:w-12 md:h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition">
+                    <Star className="w-5 h-5 sm:w-6 sm:h-6 text-orange-600 dark:text-orange-400 theme-transition" />
                   </div>
                   <div>
-                    <p className="text-gray-500 dark:text-gray-400 text-sm theme-transition">{t('dashboard.streak')}</p>
-                    <p className="text-3xl text-gray-800 dark:text-white theme-transition">7 {t('dashboard.days')}</p>
+                    <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">{t('dashboard.streak')}</p>
+                    <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">7 {t('dashboard.days')}</p>
                   </div>
                 </div>
-                <p className="text-sm text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.keepUp')}</p>
+                <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">{t('dashboard.keepUp')}</p>
               </Card>
             </motion.div>
           </div>
