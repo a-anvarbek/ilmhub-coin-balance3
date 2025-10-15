@@ -1,108 +1,79 @@
-import { motion } from 'motion/react';
-import { Button } from './ui/button';
-import { Card } from './ui/card';
-import { 
-  Coins, 
-  Target, 
-  Users, 
+// Libraries
+import { motion } from "motion/react";
+import {
+  Target,
+  Users,
   Heart,
   TrendingUp,
   Shield,
-  Award,
-  BookOpen
-} from 'lucide-react';
-import { ImageWithFallback } from './figma/ImageWithFallback';
+  BookOpen,
+} from "lucide-react";
+import { useNavigate } from "react-router";
+
+// Components
+import { Button } from "../../components/ui/button";
+import { Card } from "../../components/ui/card";
+import { ImageWithFallback } from "../../components/figma/ImageWithFallback";
 
 const whyChoose = [
   {
     icon: Target,
-    title: 'Clear Learning Goals',
-    description: 'Set and track your educational objectives with our structured curriculum and personalized learning paths.'
+    title: "Clear Learning Goals",
+    description:
+      "Set and track your educational objectives with our structured curriculum and personalized learning paths.",
   },
   {
     icon: TrendingUp,
-    title: 'Track Your Progress',
-    description: 'Monitor your improvement with detailed analytics and insights into your learning journey.'
+    title: "Track Your Progress",
+    description:
+      "Monitor your improvement with detailed analytics and insights into your learning journey.",
   },
   {
     icon: Shield,
-    title: 'Safe & Secure',
-    description: 'Your data is protected with industry-standard security measures and privacy protocols.'
+    title: "Safe & Secure",
+    description:
+      "Your data is protected with industry-standard security measures and privacy protocols.",
   },
   {
     icon: Heart,
-    title: 'Student-Centered',
-    description: 'Every feature is designed with students in mind, ensuring an engaging and supportive experience.'
-  }
+    title: "Student-Centered",
+    description:
+      "Every feature is designed with students in mind, ensuring an engaging and supportive experience.",
+  },
 ];
 
 const team = [
   {
-    name: 'Sarah Ahmed',
-    role: 'CEO & Founder',
-    image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjAyNDA1NTR8MA&ixlib=rb-4.1.0&q=80&w=400'
+    name: "Sarah Ahmed",
+    role: "CEO & Founder",
+    image:
+      "https://images.unsplash.com/photo-1560250097-0b93528c311a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxwcm9mZXNzaW9uYWwlMjBwb3J0cmFpdHxlbnwxfHx8fDE3NjAyNDA1NTR8MA&ixlib=rb-4.1.0&q=80&w=400",
   },
   {
-    name: 'Michael Chen',
-    role: 'Chief Technology Officer',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80'
+    name: "Michael Chen",
+    role: "Chief Technology Officer",
+    image:
+      "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
   },
   {
-    name: 'Aisha Khan',
-    role: 'Head of Education',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80'
+    name: "Aisha Khan",
+    role: "Head of Education",
+    image:
+      "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
   },
   {
-    name: 'David Rodriguez',
-    role: 'Product Manager',
-    image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80'
-  }
+    name: "David Rodriguez",
+    role: "Product Manager",
+    image:
+      "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80",
+  },
 ];
 
-export function About({ onNavigate }) {
+export default function About() {
+  const navigate = useNavigate();
+
   return (
     <div className="min-h-screen">
-      {/* Navigation */}
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-200/50"
-      >
-        <div className="max-w-7xl mx-auto px-6 py-4">
-          <div className="flex items-center justify-between">
-            <button onClick={() => onNavigate('home')} className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center">
-                <Coins className="w-6 h-6 text-white" />
-              </div>
-              <span className="text-xl text-gray-800">IlmCoin</span>
-            </button>
-            
-            <div className="hidden md:flex items-center gap-8">
-              <button onClick={() => onNavigate('home')} className="text-gray-600 hover:text-gray-800 transition-colors">
-                Home
-              </button>
-              <button onClick={() => onNavigate('about')} className="text-gray-800">
-                About
-              </button>
-              <button onClick={() => onNavigate('features')} className="text-gray-600 hover:text-gray-800 transition-colors">
-                Features
-              </button>
-              <button onClick={() => onNavigate('contact')} className="text-gray-600 hover:text-gray-800 transition-colors">
-                Contact
-              </button>
-            </div>
-
-            <Button
-              onClick={() => onNavigate('login')}
-              className="bg-gradient-to-r from-blue-400 to-green-400 hover:from-blue-500 hover:to-green-500 text-white rounded-full px-6 shadow-md"
-            >
-              Login
-            </Button>
-          </div>
-        </div>
-      </motion.nav>
-
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-6">
         <div className="max-w-7xl mx-auto">
@@ -113,10 +84,14 @@ export function About({ onNavigate }) {
             className="text-center mb-16"
           >
             <h1 className="text-5xl lg:text-6xl text-gray-800 mb-6">
-              About <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">IlmCoin</span>
+              About{" "}
+              <span className="bg-gradient-to-r from-blue-600 to-green-600 bg-clip-text text-transparent">
+                IlmCoin
+              </span>
             </h1>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Transforming education through innovation, engagement, and rewards.
+              Transforming education through innovation, engagement, and
+              rewards.
             </p>
           </motion.div>
 
@@ -147,14 +122,19 @@ export function About({ onNavigate }) {
                 <Target className="w-4 h-4 text-blue-600" />
                 <span className="text-sm text-blue-700">Our Mission</span>
               </div>
-              <h2 className="text-4xl text-gray-800 mb-6">Empowering Learners Worldwide</h2>
+              <h2 className="text-4xl text-gray-800 mb-6">
+                Empowering Learners Worldwide
+              </h2>
               <p className="text-lg text-gray-600 mb-6">
-                At IlmCoin, we believe that education should be accessible, engaging, and rewarding for everyone. 
-                Our platform was born from the vision of making learning a joyful experience rather than a burden.
+                At IlmCoin, we believe that education should be accessible,
+                engaging, and rewarding for everyone. Our platform was born from
+                the vision of making learning a joyful experience rather than a
+                burden.
               </p>
               <p className="text-lg text-gray-600 mb-6">
-                We combine cutting-edge technology with proven educational methodologies to create an environment 
-                where students are motivated to learn, grow, and achieve their full potential.
+                We combine cutting-edge technology with proven educational
+                methodologies to create an environment where students are
+                motivated to learn, grow, and achieve their full potential.
               </p>
               <div className="grid grid-cols-2 gap-6">
                 <div className="flex items-start gap-3">
@@ -193,7 +173,8 @@ export function About({ onNavigate }) {
           >
             <h2 className="text-4xl text-gray-800 mb-4">Why Choose IlmCoin?</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Discover what makes our platform the perfect choice for your learning journey.
+              Discover what makes our platform the perfect choice for your
+              learning journey.
             </p>
           </motion.div>
 
@@ -231,7 +212,8 @@ export function About({ onNavigate }) {
           >
             <h2 className="text-4xl text-gray-800 mb-4">Meet Our Team</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Passionate educators and technologists working together to revolutionize learning.
+              Passionate educators and technologists working together to
+              revolutionize learning.
             </p>
           </motion.div>
 
@@ -270,19 +252,22 @@ export function About({ onNavigate }) {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-4xl text-white mb-6">Ready to Start Your Journey?</h2>
+            <h2 className="text-4xl text-white mb-6">
+              Ready to Start Your Journey?
+            </h2>
             <p className="text-xl text-white/90 mb-8">
-              Join thousands of students who are already learning, growing, and earning rewards with IlmCoin.
+              Join thousands of students who are already learning, growing, and
+              earning rewards with IlmCoin.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
-                onClick={() => onNavigate('login')}
+                onClick={() => navigate("/login")}
                 className="bg-white hover:bg-gray-100 text-blue-600 rounded-full px-8 py-6 shadow-lg hover:shadow-xl transition-all"
               >
                 Get Started Now
               </Button>
               <Button
-                onClick={() => onNavigate('features')}
+                onClick={() => navigate("/features")}
                 variant="outline"
                 className="border-white text-white hover:bg-white/10 rounded-full px-8 py-6 transition-all"
               >
