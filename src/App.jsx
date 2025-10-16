@@ -1,6 +1,7 @@
 // Libraries
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 
 // Pages
 import MainRouter from "./router/MainRouter";
@@ -47,9 +48,11 @@ function AppContent() {
 }
 
 export default function App() {
+  const location = useLocation();
+
   return (
     <>
-      <Header />
+      {!location.pathname.startsWith("/dashboard") && <Header />}
       <ScrollToTop />
       <AppContent />
     </>

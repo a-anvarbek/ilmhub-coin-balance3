@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { Coins, Menu, X } from "lucide-react";
 import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
 
 // Components
 import { Button } from "./ui/button";
@@ -16,6 +17,8 @@ export default function Header() {
   const { t } = useLanguage();
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+
 
   return (
     <motion.nav
@@ -99,7 +102,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden mt-4 p-4 bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm rounded-lg border border-gray-200 dark:border-gray-700">
+          <div className="md:hidden fixed top-[64px] left-0 right-0 bottom-0 p-4 bg-white dark:bg-gray-900 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 overflow-y-auto">
             <nav className="flex flex-col gap-3">
               <button
                 onClick={() => {
