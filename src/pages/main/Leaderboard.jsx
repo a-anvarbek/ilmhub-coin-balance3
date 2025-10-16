@@ -774,6 +774,7 @@ export default function Leaderboard() {
         return <UserCog className="w-4 h-4" />;
     }
   };
+  
 
   return (
     <div className="min-h-screen pt-32 px-6">
