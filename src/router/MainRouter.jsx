@@ -1,5 +1,5 @@
 // Libraries
-import { Route, Routes } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 
 // Router
 import ROUTES from "./routes";
@@ -23,6 +23,7 @@ const MainRouter = ({
   onGoogleLogin,
   onDemoLogin,
   onLogout,
+  onNavigate,
 }) => {
   return (
     <Routes>
@@ -48,7 +49,7 @@ const MainRouter = ({
       {/* Users */}
       <Route
         path={ROUTES.DASHBOARD}
-        element={<Dashboard user={user} onLogout={onLogout} />}
+        element={<Dashboard user={user} onLogout={onLogout} onNavigate={onNavigate} />}
       />
     </Routes>
   );
