@@ -25,7 +25,7 @@ export default function Header() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 theme-transition"
+      className="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-lg border-b border-gray-200/50 dark:border-gray-700/50 theme-transition overflow-visible"
     >
       <div className="max-w-7xl mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
@@ -102,7 +102,7 @@ export default function Header() {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden fixed top-[64px] left-0 right-0 bottom-0 p-4 bg-white dark:bg-gray-900 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 overflow-y-auto">
+          <div className="md:hidden absolute top-[64px] left-0 right-0 p-4 bg-white dark:bg-gray-900 backdrop-blur-sm border-t border-gray-200 dark:border-gray-700 overflow-y-auto z-40">
             <nav className="flex flex-col gap-3">
               <button
                 onClick={() => {

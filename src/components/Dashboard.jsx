@@ -98,7 +98,7 @@ const getActivityColor = (type) => {
 export default function Dashboard({
   user,
   onLogout,
-  onNavigate,
+  onNavigate = () => {},
 }) {
   const { t } = useLanguage();
   const [filterType, setFilterType] = useState("all");
@@ -273,10 +273,10 @@ export default function Dashboard({
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">
-                      {user.name}
+                      {user?.name}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 truncate theme-transition">
-                      {user.email}
+                      {user?.email}
                     </p>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export default function Dashboard({
                   <span>{t("dashboard.dashboard")}</span>
                 </button>
                 <button
-                  onClick={() => onNavigate("leaderboard")}
+                  onClick={() => { window.location.href = "/leaderboard"; }}
                   className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition"
                 >
                   <Trophy className="w-5 h-5" />
@@ -359,7 +359,7 @@ export default function Dashboard({
             transition={{ duration: 0.5 }}
           >
             <h1 className="text-2xl sm:text-3xl md:text-4xl text-gray-800 dark:text-white mb-2 theme-transition">
-              {t("dashboard.welcome")} {user.name}! 👋
+              {t("dashboard.welcome")} {user?.name}! 👋
             </h1>
             <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 theme-transition">
               {t("dashboard.subtitle")}

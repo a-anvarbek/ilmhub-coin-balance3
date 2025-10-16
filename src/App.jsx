@@ -42,6 +42,7 @@ function AppContent() {
         onGoogleLogin={handleGoogleLogin}
         onDemoLogin={handleDemoLogin}
         onLogout={handleLogout}
+        onNavigate={(path) => navigate(path)}
       />
     </div>
   );
