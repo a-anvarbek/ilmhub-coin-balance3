@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from 'motion/react';
 import { Button } from './ui/button';
 import { Card } from './ui/card';
@@ -62,16 +63,15 @@ const getActivityColor = (type) => {
 
 export default function Dashboard({ user, onLogout, onNavigate }) {
   const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
-    if (!user) {
+    if (!user && location.pathname === '/dashboard') {
       navigate('/login');
     }
-  }, [user, navigate]);
+  }, [user, navigate, location]);
 
-  if (!user) {
-    return null;
-  }
+  if (!user) return null;
   const { t } = useLanguage();
   const [filterType, setFilterType] = useState('all');
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -136,7 +136,7 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
               initial={{ x: -300 }}
               animate={{ x: 0 }}
               exit={{ x: -300 }}
-              transition={{ type: "spring", damping: 20 }}
+              transition={{ type: "spring", damping: 40, stiffness: 400 }}
               className="fixed md:sticky top-0 left-0 h-screen w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-700 p-6 z-50 overflow-y-auto theme-transition"
             >
               <div className="flex items-center justify-between mb-8">
@@ -169,19 +169,12 @@ export default function Dashboard({ user, onLogout, onNavigate }) {
               </div>
 
               <nav className="space-y-2 mb-8">
-                <button
-                  onClick={() => onNavigate('home')}
-                  className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition"
-                >
-                  <HomeIcon className="w-5 h-5" />
-                  <span>{t('dashboard.home')}</span>
-                </button>
                 <button className="w-full flex items-center gap-3 px-4 py-3 bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-900/20 dark:to-green-900/20 text-blue-600 dark:text-blue-400 rounded-xl transition-all theme-transition">
                   <Coins className="w-5 h-5" />
                   <span>{t('dashboard.dashboard')}</span>
                 </button>
                 <button
-                  onClick={() => onNavigate('leaderboard')}
+                  onClick={() => navigate('/leaderboard')}
                   className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition"
                 >
                   <Trophy className="w-5 h-5" />
