@@ -41,6 +41,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
+/* === DARK MODE === */
 .dark {
   --background: #0f1729;
   --foreground: #ffffff;
@@ -62,8 +63,6 @@
   --input: rgba(255, 255, 255, 0.05);
   --input-background: rgba(255, 255, 255, 0.05);
   --ring: #4299e1;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
   --chart-1: #4299e1;
   --chart-2: #48bb78;
   --chart-3: #ed8936;
@@ -79,6 +78,7 @@
   --sidebar-ring: #4299e1;
 }
 
+/* === THEME COLORS === */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -120,76 +120,137 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
+/* === BASE LAYER === */
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
   }
 
   body {
     @apply bg-background text-foreground;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-family: "Inter", sans-serif;
     transition: background-color 0.3s ease, color 0.3s ease;
+    line-height: 1.5;
   }
-  
+
+  main,
+  section,
+  div {
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  p {
+    line-height: 1.5;
+    word-wrap: break-word;
+  }
+
   .theme-transition {
     transition: all 0.3s ease;
   }
 }
 
-/**
- * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
- */
-@layer base {
-  :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
-    h1 {
-      font-size: var(--text-2xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
+/* === RESPONSIVE FONT SCALE (foiz asosida) === */
+html {
+  font-size: 100%;
+}
 
-    h2 {
-      font-size: var(--text-xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h3 {
-      font-size: var(--text-lg);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h4 {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    p {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-normal);
-      line-height: 1.5;
-    }
-
-    label {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    button {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    input {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-normal);
-      line-height: 1.5;
-    }
+@media (max-width: 1024px) {
+  html {
+    font-size: 95%;
   }
 }
 
-html {
-  font-size: var(--font-size);
+@media (max-width: 768px) {
+  html {
+    font-size: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  html {
+    font-size: 87%;
+  }
+}
+
+@media (max-width: 360px) {
+  html {
+    font-size: 85%;
+  }
+}
+
+/* === VISUAL OPTIMIZATION === */
+img,
+video,
+canvas,
+svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Responsive Sidebar */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: auto;
+    z-index: 1000;
+  }
+}
+
+/* Responsive Grid */
+@media (max-width: 768px) {
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+}
+
+@media (min-width: 769px) {
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+}
+
+/* Font and Padding Adjustments */
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+    padding: 0.5rem;
+  }
+}
+
+/* Overflow Fix */
+html,
+body {
+  overflow-x: hidden;
 }
