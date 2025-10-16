@@ -776,23 +776,9 @@ export default function Leaderboard() {
   };
 
   return (
-    <div className="min-h-screen p-3 sm:p-4 md:p-6">
+    <div className="min-h-screen pt-32 px-6">
       {/* Header */}
       <div className="max-w-7xl mx-auto mb-4 sm:mb-6 md:mb-8">
-        <div className="flex items-center justify-between mb-3 sm:mb-4 md:mb-6">
-          <Button
-            onClick={() => navigate("/")}
-            variant="ghost"
-            size="sm"
-            className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white rounded-full theme-transition px-2 sm:px-3"
-          >
-            ← {t("nav.home")}
-          </Button>
-          <div className="flex items-center gap-1.5 sm:gap-2 md:gap-3">
-            <ThemeToggle />
-            <LanguageToggle />
-          </div>
-        </div>
 
         {/* Title Section */}
         <motion.div
