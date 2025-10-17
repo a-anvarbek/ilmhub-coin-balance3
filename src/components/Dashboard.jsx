@@ -284,7 +284,7 @@ export default function Dashboard({
 
               <nav className="space-y-2 mb-8">
                 <button
-                  onClick={() => onNavigate("home")}
+                  onClick={() => onNavigate("/")}
                   className="w-full flex items-center gap-3 px-4 py-3 text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-800 rounded-xl transition-all theme-transition"
                 >
                   <HomeIcon className="w-5 h-5" />
@@ -366,13 +366,13 @@ export default function Dashboard({
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
             >
-              <Card className="w-full p-5 md:p-6 bg-gradient-to-br from-blue-400 to-green-400 border-0 shadow-xl rounded-2xl text-white relative overflow-hidden">
+              <Card className="w-full p-6 md:p-8 bg-gradient-to-br from-blue-400 to-green-400 border-0 shadow-xl rounded-2xl text-white relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-24 h-24 md:w-32 md:h-32 bg-white/10 rounded-full -mr-12 -mt-12 md:-mr-16 md:-mt-16"></div>
                 <div className="absolute bottom-0 left-0 w-40 h-40 md:w-48 md:h-48 bg-white/10 rounded-full -ml-20 -mb-20 md:-ml-24 md:-mb-24"></div>
                 <div className="relative z-10">
@@ -418,12 +418,12 @@ export default function Dashboard({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.2 }}
             >
-              <Card className="w-full p-5 md:p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition">
+              <Card className="w-full p-6 md:p-8 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition space-y-2">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition">
                     <Trophy className="w-5 h-5 md:w-6 md:h-6 text-purple-600 dark:text-purple-400 theme-transition" />
                   </div>
-                  <div>
+                  <div className="pl-1">
                     <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
                       {t("dashboard.achievements")}
                     </p>
@@ -443,12 +443,12 @@ export default function Dashboard({
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.3 }}
             >
-              <Card className="w-full p-5 md:p-6 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition">
+              <Card className="w-full p-6 md:p-8 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition space-y-2">
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition">
                     <Star className="w-5 h-5 md:w-6 md:h-6 text-orange-600 dark:text-orange-400 theme-transition" />
                   </div>
-                  <div>
+                  <div className="pl-1">
                     <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
                       {t("dashboard.streak")}
                     </p>
