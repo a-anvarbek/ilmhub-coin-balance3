@@ -586,11 +586,6 @@ export default function Dashboard({
                                 <Calendar className="w-3 h-3" />
                                 {formatDate(activity.date)}
                               </span>
-                              <span
-                                className={`px-2 py-0.5 ${colors.light} ${colors.text} rounded-full text-xs theme-transition`}
-                              >
-                                {t(activity.categoryKey)}
-                              </span>
                             </div>
                           </div>
 
