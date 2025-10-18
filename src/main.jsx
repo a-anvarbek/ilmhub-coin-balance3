@@ -6,6 +6,9 @@ import { Provider } from "react-redux";
 // Component
 import App from "./App.jsx";
 
+// Redux
+import { store } from "./utils/redux/store.js";
+
 // Context Providers
 import { LanguageProvider } from "./contexts/LanguageContext.jsx";
 import { ThemeProvider } from "./contexts/ThemeContext.jsx";
@@ -20,7 +23,7 @@ const root = createRoot(container);
 root.render(
   <LanguageProvider>
     <ThemeProvider>
-      <Provider>
+      <Provider store={store}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
