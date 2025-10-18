@@ -1,7 +1,6 @@
 // Libraries
 import { useState } from "react";
-import { useNavigate } from "react-router";
-import { useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router";
 
 // Pages
 import MainRouter from "./router/MainRouter";
