@@ -1,7 +1,7 @@
 // NOTE: This Dashboard component includes its own sidebar/navigation and does NOT require the global Navbar.
 // When navigating to the Dashboard route, the global Navbar should not be displayed.
 // Libraries
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Home as HomeIcon,
@@ -235,6 +235,9 @@ export default function Dashboard({
     });
   };
 
+
+  
+
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
@@ -276,21 +279,8 @@ export default function Dashboard({
                 </Button>
               </div>
 
-              <div className="mb-8">
-                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl theme-transition">
-                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center text-white">
-                    <User className="w-6 h-6" />
-                  </div>
-                  <div className="flex-1 min-w-0">
-                    <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">
-                      {user?.name}
-                    </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate theme-transition">
-                      {user?.email}
-                    </p>
-                  </div>
-                </div>
-              </div>
+              {/* Profile Card with Slide Logout Button */}
+              <ProfileSidebarCard onLogout={onLogout} t={t} />
 
               <nav className="space-y-2 mb-8">
                 <button
@@ -322,16 +312,6 @@ export default function Dashboard({
                 <LanguageToggle />
               </div>
 
-              <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 theme-transition">
-                <Button
-                  onClick={onLogout}
-                  variant="outline"
-                  className="w-full justify-start gap-3 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-700 transition-all theme-transition"
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span>{t("nav.logout")}</span>
-                </Button>
-              </div>
             </motion.aside>
           </>
         )}
@@ -398,7 +378,7 @@ export default function Dashboard({
                       </motion.div>
                       <div>
                         <p className="text-white/80 text-xs sm:text-sm">
-                          {t("dashboard.currentBalance") || "Current Balance"}
+                          currentBalance
                         </p>
                         <motion.p
                           initial={{ opacity: 0, scale: 0.5 }}
@@ -434,16 +414,13 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        {t("dashboard.allTimeBalance") || "All Time Balance"}
+                        allTimeBalance
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         {allTimeBalance.toLocaleString()}
                       </p>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    {t("dashboard.lifetimeCoins") || "Lifetime IlmCoins earned"}
-                  </p>
                 </Card>
               </motion.div>
 
@@ -460,16 +437,13 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        {t("dashboard.centerRank") || "Center Rank"}
+                        centerRank
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         #{centerRank}
                       </p>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    {t("dashboard.centerRankDesc") || "Your rank in your center"}
-                  </p>
                 </Card>
               </motion.div>
 
@@ -486,16 +460,13 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        {t("dashboard.globalRank") || "Global Rank"}
+                        globalRank
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         #{globalRank}
                       </p>
                     </div>
                   </div>
-                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    {t("dashboard.globalRankDesc") || "Your global rank"}
-                  </p>
                 </Card>
               </motion.div>
             </div>
@@ -619,6 +590,67 @@ export default function Dashboard({
           <Leaderboard />
         )}
       </div>
+    </div>
+  );
+}
+const FIRST_NAMES = [
+  "Ali", "Sara", "Omar", "Amina", "Bilal", "Layla", "Zara", "Imran", "Fatima", "Yusuf", "Noor", "Hassan",
+  "Samira", "Mariam", "Idris", "Salma", "Jamil", "Rania", "Karim", "Nadia"
+];
+const LAST_NAMES = [
+  "Rahman", "Karimov", "Ibragim", "Saidova", "Nazarov", "Ismail", "Qasim", "Yuldashev", "Sharipova", "Azizov",
+  "Salim", "Khalilov", "Mirza", "Hakim", "Sattarov", "Kamil", "Jabbarov", "Rashidov", "Khodjaev", "Khalil"
+];
+
+function getRandomName() {
+  const first = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
+  const last = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
+  return `${first} ${last}`;
+}
+
+function ProfileSidebarCard({ onLogout, t }) {
+  const nameRef = useRef(getRandomName());
+  const [hovered, setHovered] = useState(false);
+
+  return (
+    <div
+      className="mb-8 relative rounded-xl overflow-hidden"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      tabIndex={0}
+    >
+      {/* Profile info */}
+      <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 theme-transition">
+        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center text-white">
+          <User className="w-6 h-6" />
+        </div>
+        <div className="flex-1 min-w-0">
+          <p className="text-sm text-gray-800 dark:text-white truncate font-medium">
+            {nameRef.current}
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
+            profile@ilmhub.uz
+          </p>
+        </div>
+      </div>
+
+      {/* Full overlay logout on hover */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: hovered ? 1 : 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        className="absolute inset-0 bg-red-600 dark:bg-red-900 z-50 flex items-center justify-center"
+        style={{ pointerEvents: hovered ? "auto" : "none" }}
+      >
+        <Button
+          onClick={onLogout}
+          variant="destructive"
+          className="flex items-center gap-2 rounded-xl px-5 py-2 text-white"
+        >
+          <LogOut className="w-5 h-5" />
+          <span>{t("nav.logout")}</span>
+        </Button>
+      </motion.div>
     </div>
   );
 }
