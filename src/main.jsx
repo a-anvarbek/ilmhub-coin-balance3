@@ -1,12 +1,16 @@
 // Libraries
 import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router";
+import { Provider } from "react-redux";
 
 // Component
 import App from "./App.jsx";
 
+// Redux
+import { store } from "./utils/redux/store.js";
+
 // Context Providers
-import { LanguageProvider } from "./contexts/LanguageContext.jsx"
+import { LanguageProvider } from "./contexts/LanguageContext.jsx";
 import { ThemeProvider } from "./contexts/ThemeContext.jsx";
 
 // Style
@@ -18,10 +22,12 @@ const root = createRoot(container);
 
 root.render(
   <LanguageProvider>
-      <ThemeProvider>
+    <ThemeProvider>
+      <Provider store={store}>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </ThemeProvider>
+      </Provider>
+    </ThemeProvider>
   </LanguageProvider>
 );
