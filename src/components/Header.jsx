@@ -19,6 +19,9 @@ export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
 
+  if (location.pathname === '/') {
+    return null;
+  }
 
   return (
     <motion.nav

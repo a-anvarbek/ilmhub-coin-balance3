@@ -31,7 +31,6 @@ const MainRouter = ({
       <Route path={ROUTES.HOME} element={<Home />} />
       <Route path={ROUTES.ABOUT} element={<About />} />
       <Route path={ROUTES.FEATURES} element={<Features />} />
-      <Route path={ROUTES.LEADERBOARD} element={<Leaderboard />} />
       <Route path={ROUTES.CONTACT} element={<Contact />} />
 
       {/* Auth page */}
