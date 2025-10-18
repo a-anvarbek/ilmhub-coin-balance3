@@ -1,15 +1,15 @@
-const ROUTES = {
-  HOME: "/",
-  ABOUT: "/about",
-  FEATURES: "/features",
-  LEADERBOARD: "/leaderboard",
-  CONTACT: "/contact",
+  const ROUTES = {
+    HOME: "/home",
+    ABOUT: "/about",
+    FEATURES: "/features",
+    LEADERBOARD: "/leaderboard",
+    CONTACT: "/contact",
 
-  // Auth
-  LOGIN: "/login",
+    // Auth
+    LOGIN: "/login",
 
-  // User
-  DASHBOARD: "/dashboard",
-};
+    // User
+    DASHBOARD: "/",
+  };
 
-export default ROUTES;
+  export default ROUTES;

@@ -687,22 +687,33 @@ const adminsData = [
 export default function Leaderboard() {
   const { t } = useLanguage();
   const navigate = useNavigate();
-  const [selectedRole, setSelectedRole] = useState("student");
   const [expandedUserId, setExpandedUserId] = useState(null);
   const [currentPages, setCurrentPages] = useState({});
 
-  const getCurrentData = () => {
-    switch (selectedRole) {
-      case "student":
-        return studentsData;
-      case "teacher":
-        return teachersData;
-      case "admin":
-        return adminsData;
-    }
-  };
+  let allData = [
+    ...studentsData.map((item) => ({ ...item, role: "student" })),
+    ...teachersData.map((item) => ({ ...item, role: "teacher" })),
+    ...adminsData.map((item) => ({ ...item, role: "admin" })),
+  ]
+    .sort((a, b) => b.allTimeBalance - a.allTimeBalance)
+    .slice(0, 10);
 
-  const data = getCurrentData();
+  // 👉 Studentni 3-o‘ringa olib chiqamiz
+  const topStudent = studentsData[0] ? { ...studentsData[0], role: "student" } : null;
+
+  if (topStudent) {
+    const alreadyExists = allData.find((item) => item.id === topStudent.id);
+    if (!alreadyExists) {
+      allData.pop();
+      allData.push(topStudent);
+    }
+
+    const filtered = allData.filter((item) => item.id !== topStudent.id);
+    filtered.splice(2, 0, topStudent);
+    allData = filtered;
+  }
+
+  const data = allData;
 
   const toggleTransactions = (userId) => {
     setExpandedUserId(expandedUserId === userId ? null : userId);
@@ -800,50 +811,6 @@ export default function Leaderboard() {
           </p>
         </motion.div>
 
-        {/* Role Selection */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 md:gap-4 mb-4 sm:mb-6 md:mb-8"
-        >
-          <Button
-            onClick={() => setSelectedRole("student")}
-            variant={selectedRole === "student" ? "default" : "outline"}
-            className={`rounded-full px-4 sm:px-6 py-4 sm:py-5 md:py-6 transition-all text-xs sm:text-sm md:text-base ${
-              selectedRole === "student"
-                ? "bg-gradient-to-r from-blue-400 to-blue-600 text-white shadow-lg"
-                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 theme-transition"
-            }`}
-          >
-            {getRoleIcon("student")}
-            <span className="ml-1.5 sm:ml-2">{t("leaderboard.students")}</span>
-          </Button>
-          <Button
-            onClick={() => setSelectedRole("teacher")}
-            variant={selectedRole === "teacher" ? "default" : "outline"}
-            className={`rounded-full px-4 sm:px-6 py-4 sm:py-5 md:py-6 transition-all text-xs sm:text-sm md:text-base ${
-              selectedRole === "teacher"
-                ? "bg-gradient-to-r from-green-400 to-green-600 text-white shadow-lg"
-                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 theme-transition"
-            }`}
-          >
-            {getRoleIcon("teacher")}
-            <span className="ml-1.5 sm:ml-2">{t("leaderboard.teachers")}</span>
-          </Button>
-          <Button
-            onClick={() => setSelectedRole("admin")}
-            variant={selectedRole === "admin" ? "default" : "outline"}
-            className={`rounded-full px-4 sm:px-6 py-4 sm:py-5 md:py-6 transition-all text-xs sm:text-sm md:text-base ${
-              selectedRole === "admin"
-                ? "bg-gradient-to-r from-purple-400 to-purple-600 text-white shadow-lg"
-                : "bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 theme-transition"
-            }`}
-          >
-            {getRoleIcon("admin")}
-            <span className="ml-1.5 sm:ml-2">{t("leaderboard.admins")}</span>
-          </Button>
-        </motion.div>
 
         {/* Leaderboard Content */}
         <motion.div
@@ -866,12 +833,17 @@ export default function Leaderboard() {
                     {t("leaderboard.name")}
                   </p>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-2">
+                  <p className="text-sm text-gray-600 dark:text-gray-400 theme-transition">
+                    Role
+                  </p>
+                </div>
+                <div className="col-span-2">
                   <p className="text-sm text-gray-600 dark:text-gray-400 theme-transition">
                     {t("leaderboard.currentBalance")}
                   </p>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-2">
                   <p className="text-sm text-gray-600 dark:text-gray-400 theme-transition">
                     {t("leaderboard.allTimeBalance")}
                   </p>
@@ -934,7 +906,12 @@ export default function Leaderboard() {
                           </div>
                         </div>
 
-                        <div className="col-span-3 flex items-center">
+                        <div className="col-span-2 flex items-center gap-2 text-gray-800 dark:text-white theme-transition">
+                          {getRoleIcon(user.role)}
+                          <span className="capitalize">{user.role}</span>
+                        </div>
+
+                        <div className="col-span-2 flex items-center">
                           <div className="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-blue-900/20 rounded-xl theme-transition">
                             <TrendingUp className="w-5 h-5 text-blue-600 dark:text-blue-400" />
                             <div>
@@ -948,7 +925,7 @@ export default function Leaderboard() {
                           </div>
                         </div>
 
-                        <div className="col-span-3 flex items-center">
+                        <div className="col-span-2 flex items-center">
                           <div className="flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/20 rounded-xl theme-transition">
                             <Trophy className="w-5 h-5 text-green-600 dark:text-green-400" />
                             <div>
@@ -1179,6 +1156,10 @@ export default function Leaderboard() {
                         <div className="flex-1 min-w-0">
                           <p className="text-sm sm:text-base text-gray-800 dark:text-white truncate theme-transition">
                             {user.name}
+                          </p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
+                            {getRoleIcon(user.role)}
+                            <span className="capitalize">{user.role}</span>
                           </p>
                           {rank <= 3 && (
                             <Badge
