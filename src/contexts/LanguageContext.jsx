@@ -194,6 +194,17 @@ const translations = {
     'dashboard.dashboard': 'Dashboard',
     'dashboard.courses': 'My Courses',
     'dashboard.profile': 'Profile',
+
+    // Dashboard Stat Cards
+    'dashboard.currentBalanceLabel': 'Current Balance',
+    'dashboard.currentBalanceSub': 'Coins available to spend',
+    'dashboard.allTimeBalanceLabel': 'All-Time Balance',
+    'dashboard.allTimeBalanceSub': 'Total coins ever held',
+    'dashboard.lifetimeCoinsLabel': 'Lifetime IlmCoins',
+    'dashboard.centerRankLabel': 'Center Rank',
+    'dashboard.centerRankSub': 'Your rank at your learning center',
+    'dashboard.globalRankLabel': 'Global Rank',
+    'dashboard.globalRankSub': 'Your worldwide rank',
     
     // Activities
     'activity.completedMathQuiz': 'Completed Advanced Mathematics Quiz',
@@ -251,6 +262,49 @@ const translations = {
     'leaderboard.topPerformer': 'Top Performer',
     'leaderboard.excellent': 'Excellent',
     'leaderboard.great': 'Great',
+
+    //dashboard first
+    'dashboard.currentBalance': 'Current Balance',
+    'dashboard.thisWeek': '+250 this week',
+    'dashboard.allTimeBalance': 'All-Time Balance',
+    'dashboard.lifetimeCoins': 'Lifetime IlmCoins earned',
+    'dashboard.centerRank': 'Center Rank',
+    'dashboard.centerRankDesc': 'Your rank in your center',
+    'dashboard.globalRank': 'Global Rank',
+    'dashboard.globalRankDesc': 'Your global rank',
+
+
+
+    // Leaderboard
+'leaderboard.title': 'Leaderboard',
+'leaderboard.subtitle': 'Top performers and their achievements',
+'leaderboard.students': 'Students',
+'leaderboard.teachers': 'Teachers',
+'leaderboard.admins': 'Admins',
+'leaderboard.rank': 'Rank',
+'leaderboard.name': 'Name',
+'leaderboard.current': 'Current',
+'leaderboard.allTime': 'All-Time',
+'leaderboard.allTimeBalance': 'All-Time Balance',
+'leaderboard.currentBalance': 'Current Balance',
+'leaderboard.actions': 'Actions',
+'leaderboard.view': 'View',
+'leaderboard.hide': 'Hide',
+'leaderboard.transactionHistory': 'Transaction History',
+'leaderboard.type': 'Type',
+'leaderboard.description': 'Description',
+'leaderboard.amount': 'Amount',
+'leaderboard.date': 'Date',
+'leaderboard.page': 'Page',
+'leaderboard.of': 'of',
+'leaderboard.previous': 'Previous',
+'leaderboard.next': 'Next',
+'leaderboard.topPerformer': 'Top Performer',
+'leaderboard.excellent': 'Excellent',
+'leaderboard.great': 'Great',
+
+
+
   },
   uz: {
     // Navigation
@@ -445,6 +499,17 @@ const translations = {
     'dashboard.dashboard': 'Panel',
     'dashboard.courses': 'Mening kurslarim',
     'dashboard.profile': 'Profil',
+
+    // Dashboard Stat Cards
+    'dashboard.currentBalanceLabel': 'Joriy balans',
+    'dashboard.currentBalanceSub': 'Sarflash uchun mavjud tangalar',
+    'dashboard.allTimeBalanceLabel': 'Umumiy balans',
+    'dashboard.allTimeBalanceSub': 'Hech qachon bo\'lgan jami tangalar',
+    'dashboard.lifetimeCoinsLabel': 'Umumiy IlmCoins',
+    'dashboard.centerRankLabel': 'Markazdagi o‘rin',
+    'dashboard.centerRankSub': 'O‘quv markazingizdagi o‘riningiz',
+    'dashboard.globalRankLabel': 'Global o‘rin',
+    'dashboard.globalRankSub': 'Dunyo bo‘ylab o‘riningiz',
     
     // Activities
     'activity.completedMathQuiz': 'Ilg\'or matematika testini tugatdi',
@@ -502,7 +567,61 @@ const translations = {
     'leaderboard.topPerformer': 'Eng yaxshi',
     'leaderboard.excellent': 'A\'lo',
     'leaderboard.great': 'Yaxshi',
+
+    //dashboard first uzbek
+    'dashboard.currentBalance': 'Joriy balans',
+    'dashboard.thisWeek': '+250 bu hafta',
+    'dashboard.allTimeBalance': 'Umumiy balans',
+    'dashboard.lifetimeCoins': 'Umumiy IlmCoins',
+    'dashboard.centerRank': 'Markazdagi o‘rin',
+    'dashboard.centerRankDesc': 'Sizning markazdagi o‘riningiz',
+    'dashboard.globalRank': 'Global o‘rin',
+    'dashboard.globalRankDesc': 'Sizning global o‘riningiz',
+
+
+    // Leaderboard
+'leaderboard.title': 'Reyting jadvali',
+'leaderboard.subtitle': 'Eng yaxshi ishtirokchilar va ularning yutuqlari',
+'leaderboard.students': 'Talabalar',
+'leaderboard.teachers': 'Oʻqituvchilar',
+'leaderboard.admins': 'Administratorlar',
+'leaderboard.rank': 'O\'rin',
+'leaderboard.name': 'Ism',
+'leaderboard.current': 'Joriy',
+'leaderboard.allTime': 'Umumiy',
+'leaderboard.allTimeBalance': 'Umumiy balans',
+'leaderboard.currentBalance': 'Joriy balans',
+'leaderboard.actions': 'Harakatlar',
+'leaderboard.view': 'Ko\'rish',
+'leaderboard.hide': 'Yashirish',
+'leaderboard.transactionHistory': 'Tranzaksiyalar tarixi',
+'leaderboard.type': 'Turi',
+'leaderboard.description': 'Tavsif',
+'leaderboard.amount': 'Miqdor',
+'leaderboard.date': 'Sana',
+'leaderboard.page': 'Sahifa',
+'leaderboard.of': 'dan',
+'leaderboard.previous': 'Oldingi',
+'leaderboard.next': 'Keyingi',
+'leaderboard.topPerformer': 'Eng yaxshi',
+'leaderboard.excellent': 'A\'lo',
+'leaderboard.great': 'Yaxshi',
   }
+};
+
+export const getRandomName = () => {
+  const firstNames = ['Ali', 'John', 'Emma', 'Anvar', 'Liam', 'Sara', 'David', 'Mina', 'Otabek', 'Sophia'];
+  const lastNames = ['Smith', 'Aliyev', 'Johnson', 'Williams', 'Brown', 'Lee', 'Garcia', 'Khan', 'Taylor', 'Nguyen'];
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${firstName} ${lastName}`;
+};
+
+export const getRandomEmail = () => {
+  const domains = ['example.com', 'ilmcoin.com', 'mail.com', 'test.com'];
+  const randomStr = Math.random().toString(36).substring(2, 7);
+  const domain = domains[Math.floor(Math.random() * domains.length)];
+  return `${randomStr}@${domain}`;
 };
 
 const LanguageContext = createContext();

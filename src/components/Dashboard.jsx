@@ -282,11 +282,12 @@ export default function Dashboard({
                     <User className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
+                    {/* Show random first and last name */}
                     <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">
-                      {user?.name}
+                      {randomName}
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400 truncate theme-transition">
-                      {user?.email}
+                      {randomEmail}
                     </p>
                   </div>
                 </div>
@@ -317,9 +318,9 @@ export default function Dashboard({
                 </button>
               </nav>
 
-              <div className="space-y-3 mb-6">
-                <ThemeToggle />
-                <LanguageToggle />
+              <div className="flex items-center gap-3 mb-6">
+                <ThemeToggle className="rounded-xl p-2 transition-all theme-transition" />
+                <LanguageToggle className="rounded-xl p-2 transition-all theme-transition" />
               </div>
 
               <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 theme-transition">
@@ -366,7 +367,7 @@ export default function Dashboard({
               transition={{ duration: 0.5 }}
             >
               <h1 className="text-2xl sm:text-3xl md:text-4xl text-gray-800 dark:text-white mb-2 theme-transition">
-                {t("dashboard.welcome")} {user?.name}! 👋
+                {t("dashboard.welcome")} {randomName}! 👋
               </h1>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 theme-transition">
                 {t("dashboard.subtitle")}
@@ -398,7 +399,7 @@ export default function Dashboard({
                       </motion.div>
                       <div>
                         <p className="text-white/80 text-xs sm:text-sm">
-                          {t("dashboard.currentBalance") || "Current Balance"}
+                          {t("dashboard.currentBalanceLabel")}
                         </p>
                         <motion.p
                           initial={{ opacity: 0, scale: 0.5 }}
@@ -415,7 +416,7 @@ export default function Dashboard({
                     </div>
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
                       <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
-                      <span>+250 {t("dashboard.thisWeek")}</span>
+                      <span>{t("dashboard.currentBalanceSub")}</span>
                     </div>
                   </div>
                 </Card>
@@ -434,7 +435,7 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        {t("dashboard.allTimeBalance") || "All Time Balance"}
+                        {t("dashboard.allTimeBalanceLabel")}
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         {allTimeBalance.toLocaleString()}
@@ -442,7 +443,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    {t("dashboard.lifetimeCoins") || "Lifetime IlmCoins earned"}
+                    {t("dashboard.allTimeBalanceSub")}
                   </p>
                 </Card>
               </motion.div>
@@ -460,7 +461,7 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        {t("dashboard.centerRank") || "Center Rank"}
+                        {t("dashboard.centerRankLabel")}
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         #{centerRank}
@@ -468,7 +469,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    {t("dashboard.centerRankDesc") || "Your rank in your center"}
+                    {t("dashboard.centerRankSub")}
                   </p>
                 </Card>
               </motion.div>
@@ -486,7 +487,7 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        {t("dashboard.globalRank") || "Global Rank"}
+                        {t("dashboard.globalRankLabel")}
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         #{globalRank}
@@ -494,7 +495,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    {t("dashboard.globalRankDesc") || "Your global rank"}
+                    {t("dashboard.globalRankSub")}
                   </p>
                 </Card>
               </motion.div>
@@ -622,3 +623,33 @@ export default function Dashboard({
     </div>
   );
 }
+// Helper for random first and last name
+function getRandomFirstLastName() {
+  const firstNames = [
+    "Ali", "Aisha", "Fatima", "Omar", "Sara", "Yusuf", "Layla", "Zain", "Maryam", "Hassan",
+    "Imran", "Noor", "Nadia", "Bilal", "Samira", "Khalid", "Mina", "Ibrahim", "Dina", "Farah"
+  ];
+  const lastNames = [
+    "Ahmed", "Khan", "Patel", "Rahman", "Hussain", "Aliyev", "Malik", "Qureshi", "Nasir", "Aziz",
+    "Mahmood", "Siddiqui", "Farooq", "Mirza", "Hashmi", "Syed", "Chaudhry", "Sultan", "Rashid", "Ansari"
+  ];
+  // Use a random index for both, seeded from Math.random
+  const f = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const l = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${f} ${l}`;
+}
+
+// Helper for random email based on random name
+function getRandomEmail() {
+  const domains = ["gmail.com", "yahoo.com", "outlook.com", "ilmhub.com"];
+  const name = getRandomFirstLastName();
+  // Convert name to lowercase, remove spaces, add a random number
+  const base = name.toLowerCase().replace(/\s+/g, "");
+  const num = Math.floor(Math.random() * 1000);
+  const domain = domains[Math.floor(Math.random() * domains.length)];
+  return `${base}${num}@${domain}`;
+}
+
+// Generate random name and email once per component mount
+const randomName = getRandomFirstLastName();
+const randomEmail = getRandomEmail();
