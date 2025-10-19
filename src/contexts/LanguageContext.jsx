@@ -194,6 +194,17 @@ const translations = {
     'dashboard.dashboard': 'Dashboard',
     'dashboard.courses': 'My Courses',
     'dashboard.profile': 'Profile',
+
+    // Dashboard Stat Cards
+    'dashboard.currentBalanceLabel': 'Current Balance',
+    'dashboard.currentBalanceSub': 'Coins available to spend',
+    'dashboard.allTimeBalanceLabel': 'All-Time Balance',
+    'dashboard.allTimeBalanceSub': 'Total coins ever held',
+    'dashboard.lifetimeCoinsLabel': 'Lifetime IlmCoins',
+    'dashboard.centerRankLabel': 'Center Rank',
+    'dashboard.centerRankSub': 'Your rank at your learning center',
+    'dashboard.globalRankLabel': 'Global Rank',
+    'dashboard.globalRankSub': 'Your worldwide rank',
     
     // Activities
     'activity.completedMathQuiz': 'Completed Advanced Mathematics Quiz',
@@ -455,6 +466,17 @@ const translations = {
     'dashboard.dashboard': 'Panel',
     'dashboard.courses': 'Mening kurslarim',
     'dashboard.profile': 'Profil',
+
+    // Dashboard Stat Cards
+    'dashboard.currentBalanceLabel': 'Joriy balans',
+    'dashboard.currentBalanceSub': 'Sarflash uchun mavjud tangalar',
+    'dashboard.allTimeBalanceLabel': 'Umumiy balans',
+    'dashboard.allTimeBalanceSub': 'Hech qachon bo\'lgan jami tangalar',
+    'dashboard.lifetimeCoinsLabel': 'Umumiy IlmCoins',
+    'dashboard.centerRankLabel': 'Markazdagi o‘rin',
+    'dashboard.centerRankSub': 'O‘quv markazingizdagi o‘riningiz',
+    'dashboard.globalRankLabel': 'Global o‘rin',
+    'dashboard.globalRankSub': 'Dunyo bo‘ylab o‘riningiz',
     
     // Activities
     'activity.completedMathQuiz': 'Ilg\'or matematika testini tugatdi',

@@ -318,9 +318,9 @@ export default function Dashboard({
                 </button>
               </nav>
 
-              <div className="space-y-3 mb-6">
-                <ThemeToggle />
-                <LanguageToggle />
+              <div className="flex items-center gap-3 mb-6">
+                <ThemeToggle className="rounded-xl p-2 transition-all theme-transition" />
+                <LanguageToggle className="rounded-xl p-2 transition-all theme-transition" />
               </div>
 
               <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 theme-transition">
@@ -399,7 +399,7 @@ export default function Dashboard({
                       </motion.div>
                       <div>
                         <p className="text-white/80 text-xs sm:text-sm">
-                          Current Balance
+                          {t("dashboard.currentBalanceLabel")}
                         </p>
                         <motion.p
                           initial={{ opacity: 0, scale: 0.5 }}
@@ -416,7 +416,7 @@ export default function Dashboard({
                     </div>
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
                       <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
-                      <span>+250 this week</span>
+                      <span>{t("dashboard.currentBalanceSub")}</span>
                     </div>
                   </div>
                 </Card>
@@ -435,7 +435,7 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        allTimeBalance
+                        {t("dashboard.allTimeBalanceLabel")}
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         {allTimeBalance.toLocaleString()}
@@ -443,7 +443,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    Lifetime IlmCoins earned
+                    {t("dashboard.allTimeBalanceSub")}
                   </p>
                 </Card>
               </motion.div>
@@ -461,7 +461,7 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        centerRank
+                        {t("dashboard.centerRankLabel")}
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         #{centerRank}
@@ -469,7 +469,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    Your rank in your center
+                    {t("dashboard.centerRankSub")}
                   </p>
                 </Card>
               </motion.div>
@@ -487,7 +487,7 @@ export default function Dashboard({
                     </div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
-                        globalRank
+                        {t("dashboard.globalRankLabel")}
                       </p>
                       <p className="text-2xl sm:text-3xl text-gray-800 dark:text-white theme-transition">
                         #{globalRank}
@@ -495,7 +495,7 @@ export default function Dashboard({
                     </div>
                   </div>
                   <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
-                    Your global rank
+                    {t("dashboard.globalRankSub")}
                   </p>
                 </Card>
               </motion.div>
