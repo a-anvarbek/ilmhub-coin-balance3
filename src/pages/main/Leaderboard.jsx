@@ -374,21 +374,11 @@ export default function Leaderboard() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
         >
-          {/* Filter Select */}
-          <div className="flex justify-end mb-4">
-            <select className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow-sm focus:outline-none">
-              <option>1 Oy</option>
-              <option>2 Oy</option>
-              <option>3 Oy</option>
-              <option>4 Oy</option>
-              <option>5 Oy</option>
-            </select>
-          </div>
           {/* Desktop/Tablet Table View */}
           <div className="hidden md:block">
             <Card className="overflow-hidden bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-xl rounded-2xl theme-transition">
               {/* Table Header */}
-              <div className="grid grid-cols-12 gap-4 p-6 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700 theme-transition">
+              <div className="grid grid-cols-12 gap-4 p-6 bg-gray-50 dark:bg-gray-900/50 border-b border-gray-200 dark:border-gray-700 theme-transition items-center">
                 <div className="col-span-1 text-center">
                   <p className="text-sm text-gray-600 dark:text-gray-400 theme-transition">
                     {t("leaderboard.rank")}
@@ -404,10 +394,19 @@ export default function Leaderboard() {
                     {t("leaderboard.currentBalance")}
                   </p>
                 </div>
-                <div className="col-span-3">
+                <div className="col-span-3 flex items-center justify-between">
                   <p className="text-sm text-gray-600 dark:text-gray-400 theme-transition">
                     {t("leaderboard.allTimeBalance")}
                   </p>
+                  <span className="ml-auto">
+                    <select className="px-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-800 dark:text-white shadow-sm focus:outline-none">
+                      <option>1 Oylik</option>
+                      <option>2 Oylik</option>
+                      <option>3 Oylik</option>
+                      <option>4 Oylik</option>
+                      <option>5 Oylik</option>
+                    </select>
+                  </span>
                 </div>
               </div>
 

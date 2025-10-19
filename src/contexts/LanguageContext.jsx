@@ -272,6 +272,39 @@ const translations = {
     'dashboard.centerRankDesc': 'Your rank in your center',
     'dashboard.globalRank': 'Global Rank',
     'dashboard.globalRankDesc': 'Your global rank',
+
+
+
+    // Leaderboard
+'leaderboard.title': 'Leaderboard',
+'leaderboard.subtitle': 'Top performers and their achievements',
+'leaderboard.students': 'Students',
+'leaderboard.teachers': 'Teachers',
+'leaderboard.admins': 'Admins',
+'leaderboard.rank': 'Rank',
+'leaderboard.name': 'Name',
+'leaderboard.current': 'Current',
+'leaderboard.allTime': 'All-Time',
+'leaderboard.allTimeBalance': 'All-Time Balance',
+'leaderboard.currentBalance': 'Current Balance',
+'leaderboard.actions': 'Actions',
+'leaderboard.view': 'View',
+'leaderboard.hide': 'Hide',
+'leaderboard.transactionHistory': 'Transaction History',
+'leaderboard.type': 'Type',
+'leaderboard.description': 'Description',
+'leaderboard.amount': 'Amount',
+'leaderboard.date': 'Date',
+'leaderboard.page': 'Page',
+'leaderboard.of': 'of',
+'leaderboard.previous': 'Previous',
+'leaderboard.next': 'Next',
+'leaderboard.topPerformer': 'Top Performer',
+'leaderboard.excellent': 'Excellent',
+'leaderboard.great': 'Great',
+
+
+
   },
   uz: {
     // Navigation
@@ -544,6 +577,35 @@ const translations = {
     'dashboard.centerRankDesc': 'Sizning markazdagi o‘riningiz',
     'dashboard.globalRank': 'Global o‘rin',
     'dashboard.globalRankDesc': 'Sizning global o‘riningiz',
+
+
+    // Leaderboard
+'leaderboard.title': 'Reyting jadvali',
+'leaderboard.subtitle': 'Eng yaxshi ishtirokchilar va ularning yutuqlari',
+'leaderboard.students': 'Talabalar',
+'leaderboard.teachers': 'Oʻqituvchilar',
+'leaderboard.admins': 'Administratorlar',
+'leaderboard.rank': 'O\'rin',
+'leaderboard.name': 'Ism',
+'leaderboard.current': 'Joriy',
+'leaderboard.allTime': 'Umumiy',
+'leaderboard.allTimeBalance': 'Umumiy balans',
+'leaderboard.currentBalance': 'Joriy balans',
+'leaderboard.actions': 'Harakatlar',
+'leaderboard.view': 'Ko\'rish',
+'leaderboard.hide': 'Yashirish',
+'leaderboard.transactionHistory': 'Tranzaksiyalar tarixi',
+'leaderboard.type': 'Turi',
+'leaderboard.description': 'Tavsif',
+'leaderboard.amount': 'Miqdor',
+'leaderboard.date': 'Sana',
+'leaderboard.page': 'Sahifa',
+'leaderboard.of': 'dan',
+'leaderboard.previous': 'Oldingi',
+'leaderboard.next': 'Keyingi',
+'leaderboard.topPerformer': 'Eng yaxshi',
+'leaderboard.excellent': 'A\'lo',
+'leaderboard.great': 'Yaxshi',
   }
 };
 
