@@ -1,7 +1,7 @@
 // NOTE: This Dashboard component includes its own sidebar/navigation and does NOT require the global Navbar.
 // When navigating to the Dashboard route, the global Navbar should not be displayed.
 // Libraries
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Home as HomeIcon,
@@ -235,9 +235,6 @@ export default function Dashboard({
     });
   };
 
-
-  
-
   return (
     <div className="min-h-screen flex">
       {/* Sidebar */}
@@ -279,8 +276,22 @@ export default function Dashboard({
                 </Button>
               </div>
 
-              {/* Profile Card with Slide Logout Button */}
-              <ProfileSidebarCard onLogout={onLogout} t={t} />
+              <div className="mb-8">
+                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl theme-transition">
+                  <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center text-white">
+                    <User className="w-6 h-6" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    {/* Show random first and last name */}
+                    <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">
+                      {randomName}
+                    </p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400 truncate theme-transition">
+                      {randomEmail}
+                    </p>
+                  </div>
+                </div>
+              </div>
 
               <nav className="space-y-2 mb-8">
                 <button
@@ -312,6 +323,16 @@ export default function Dashboard({
                 <LanguageToggle />
               </div>
 
+              <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 theme-transition">
+                <Button
+                  onClick={onLogout}
+                  variant="outline"
+                  className="w-full justify-start gap-3 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-700 transition-all theme-transition"
+                >
+                  <LogOut className="w-5 h-5" />
+                  <span>{t("nav.logout")}</span>
+                </Button>
+              </div>
             </motion.aside>
           </>
         )}
@@ -346,7 +367,7 @@ export default function Dashboard({
               transition={{ duration: 0.5 }}
             >
               <h1 className="text-2xl sm:text-3xl md:text-4xl text-gray-800 dark:text-white mb-2 theme-transition">
-                {t("dashboard.welcome")} {user?.name}! 👋
+                {t("dashboard.welcome")} {randomName}! 👋
               </h1>
               <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 theme-transition">
                 {t("dashboard.subtitle")}
@@ -378,7 +399,7 @@ export default function Dashboard({
                       </motion.div>
                       <div>
                         <p className="text-white/80 text-xs sm:text-sm">
-                          currentBalance
+                          Current Balance
                         </p>
                         <motion.p
                           initial={{ opacity: 0, scale: 0.5 }}
@@ -395,7 +416,7 @@ export default function Dashboard({
                     </div>
                     <div className="flex items-center gap-1 text-xs sm:text-sm">
                       <TrendingUp className="w-3 h-3 sm:w-4 sm:h-4" />
-                      <span>+250 {t("dashboard.thisWeek")}</span>
+                      <span>+250 this week</span>
                     </div>
                   </div>
                 </Card>
@@ -421,6 +442,9 @@ export default function Dashboard({
                       </p>
                     </div>
                   </div>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
+                    Lifetime IlmCoins earned
+                  </p>
                 </Card>
               </motion.div>
 
@@ -444,6 +468,9 @@ export default function Dashboard({
                       </p>
                     </div>
                   </div>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
+                    Your rank in your center
+                  </p>
                 </Card>
               </motion.div>
 
@@ -467,6 +494,9 @@ export default function Dashboard({
                       </p>
                     </div>
                   </div>
+                  <p className="text-xs sm:text-sm text-gray-600 dark:text-gray-300 theme-transition">
+                    Your global rank
+                  </p>
                 </Card>
               </motion.div>
             </div>
@@ -593,64 +623,33 @@ export default function Dashboard({
     </div>
   );
 }
-const FIRST_NAMES = [
-  "Ali", "Sara", "Omar", "Amina", "Bilal", "Layla", "Zara", "Imran", "Fatima", "Yusuf", "Noor", "Hassan",
-  "Samira", "Mariam", "Idris", "Salma", "Jamil", "Rania", "Karim", "Nadia"
-];
-const LAST_NAMES = [
-  "Rahman", "Karimov", "Ibragim", "Saidova", "Nazarov", "Ismail", "Qasim", "Yuldashev", "Sharipova", "Azizov",
-  "Salim", "Khalilov", "Mirza", "Hakim", "Sattarov", "Kamil", "Jabbarov", "Rashidov", "Khodjaev", "Khalil"
-];
-
-function getRandomName() {
-  const first = FIRST_NAMES[Math.floor(Math.random() * FIRST_NAMES.length)];
-  const last = LAST_NAMES[Math.floor(Math.random() * LAST_NAMES.length)];
-  return `${first} ${last}`;
+// Helper for random first and last name
+function getRandomFirstLastName() {
+  const firstNames = [
+    "Ali", "Aisha", "Fatima", "Omar", "Sara", "Yusuf", "Layla", "Zain", "Maryam", "Hassan",
+    "Imran", "Noor", "Nadia", "Bilal", "Samira", "Khalid", "Mina", "Ibrahim", "Dina", "Farah"
+  ];
+  const lastNames = [
+    "Ahmed", "Khan", "Patel", "Rahman", "Hussain", "Aliyev", "Malik", "Qureshi", "Nasir", "Aziz",
+    "Mahmood", "Siddiqui", "Farooq", "Mirza", "Hashmi", "Syed", "Chaudhry", "Sultan", "Rashid", "Ansari"
+  ];
+  // Use a random index for both, seeded from Math.random
+  const f = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const l = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${f} ${l}`;
 }
 
-function ProfileSidebarCard({ onLogout, t }) {
-  const nameRef = useRef(getRandomName());
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <div
-      className="mb-8 relative rounded-xl overflow-hidden"
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      tabIndex={0}
-    >
-      {/* Profile info */}
-      <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 theme-transition">
-        <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center text-white">
-          <User className="w-6 h-6" />
-        </div>
-        <div className="flex-1 min-w-0">
-          <p className="text-sm text-gray-800 dark:text-white truncate font-medium">
-            {nameRef.current}
-          </p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 truncate">
-            profile@ilmhub.uz
-          </p>
-        </div>
-      </div>
-
-      {/* Full overlay logout on hover */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: hovered ? 1 : 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
-        className="absolute inset-0 bg-red-600 dark:bg-red-900 z-50 flex items-center justify-center"
-        style={{ pointerEvents: hovered ? "auto" : "none" }}
-      >
-        <Button
-          onClick={onLogout}
-          variant="destructive"
-          className="flex items-center gap-2 rounded-xl px-5 py-2 text-white"
-        >
-          <LogOut className="w-5 h-5" />
-          <span>{t("nav.logout")}</span>
-        </Button>
-      </motion.div>
-    </div>
-  );
+// Helper for random email based on random name
+function getRandomEmail() {
+  const domains = ["gmail.com", "yahoo.com", "outlook.com", "ilmhub.com"];
+  const name = getRandomFirstLastName();
+  // Convert name to lowercase, remove spaces, add a random number
+  const base = name.toLowerCase().replace(/\s+/g, "");
+  const num = Math.floor(Math.random() * 1000);
+  const domain = domains[Math.floor(Math.random() * domains.length)];
+  return `${base}${num}@${domain}`;
 }
+
+// Generate random name and email once per component mount
+const randomName = getRandomFirstLastName();
+const randomEmail = getRandomEmail();

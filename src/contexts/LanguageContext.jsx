@@ -251,6 +251,16 @@ const translations = {
     'leaderboard.topPerformer': 'Top Performer',
     'leaderboard.excellent': 'Excellent',
     'leaderboard.great': 'Great',
+
+    //dashboard first
+    'dashboard.currentBalance': 'Current Balance',
+    'dashboard.thisWeek': '+250 this week',
+    'dashboard.allTimeBalance': 'All-Time Balance',
+    'dashboard.lifetimeCoins': 'Lifetime IlmCoins earned',
+    'dashboard.centerRank': 'Center Rank',
+    'dashboard.centerRankDesc': 'Your rank in your center',
+    'dashboard.globalRank': 'Global Rank',
+    'dashboard.globalRankDesc': 'Your global rank',
   },
   uz: {
     // Navigation
@@ -502,7 +512,32 @@ const translations = {
     'leaderboard.topPerformer': 'Eng yaxshi',
     'leaderboard.excellent': 'A\'lo',
     'leaderboard.great': 'Yaxshi',
+
+    //dashboard first uzbek
+    'dashboard.currentBalance': 'Joriy balans',
+    'dashboard.thisWeek': '+250 bu hafta',
+    'dashboard.allTimeBalance': 'Umumiy balans',
+    'dashboard.lifetimeCoins': 'Umumiy IlmCoins',
+    'dashboard.centerRank': 'Markazdagi o‘rin',
+    'dashboard.centerRankDesc': 'Sizning markazdagi o‘riningiz',
+    'dashboard.globalRank': 'Global o‘rin',
+    'dashboard.globalRankDesc': 'Sizning global o‘riningiz',
   }
+};
+
+export const getRandomName = () => {
+  const firstNames = ['Ali', 'John', 'Emma', 'Anvar', 'Liam', 'Sara', 'David', 'Mina', 'Otabek', 'Sophia'];
+  const lastNames = ['Smith', 'Aliyev', 'Johnson', 'Williams', 'Brown', 'Lee', 'Garcia', 'Khan', 'Taylor', 'Nguyen'];
+  const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+  const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+  return `${firstName} ${lastName}`;
+};
+
+export const getRandomEmail = () => {
+  const domains = ['example.com', 'ilmcoin.com', 'mail.com', 'test.com'];
+  const randomStr = Math.random().toString(36).substring(2, 7);
+  const domain = domains[Math.floor(Math.random() * domains.length)];
+  return `${randomStr}@${domain}`;
 };
 
 const LanguageContext = createContext();
