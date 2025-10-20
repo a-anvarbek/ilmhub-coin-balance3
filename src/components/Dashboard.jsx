@@ -1,7 +1,7 @@
 // NOTE: This Dashboard component includes its own sidebar/navigation and does NOT require the global Navbar.
 // When navigating to the Dashboard route, the global Navbar should not be displayed.
 // Libraries
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   Home as HomeIcon,
@@ -110,6 +110,27 @@ export default function Dashboard({
     typeof window !== "undefined" ? window.innerWidth : 1024,
   );
   const [activeSection, setActiveSection] = useState("dashboard");
+  // Dropdown for account
+  const [showDropdown, setShowDropdown] = useState(false);
+  const accountRef = useRef(null);
+  const dropdownRef = useRef(null);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    if (!showDropdown) return;
+    function handleClickOutside(e) {
+      if (
+        accountRef.current &&
+        !accountRef.current.contains(e.target) &&
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target)
+      ) {
+        setShowDropdown(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [showDropdown]);
 
   useEffect(() => {
     function handleResize() {
@@ -276,13 +297,27 @@ export default function Dashboard({
                 </Button>
               </div>
 
-              <div className="mb-8">
-                <div className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl theme-transition">
+              {/*
+                Account section with dropdown:
+                - The > icon is removed.
+                - The dropdown appears when clicking the account div.
+              */}
+              {/* Account section with dropdown */}
+              <div className="relative mb-8">
+                <div
+                  ref={accountRef}
+                  className="flex items-center gap-3 p-3 bg-gray-50 dark:bg-gray-800 rounded-xl theme-transition cursor-pointer transition-all hover:bg-blue-100/60 dark:hover:bg-blue-900/30"
+                  style={{ marginBottom: "0.25rem" }}
+                  onClick={() => setShowDropdown((prev) => !prev)}
+                  tabIndex={0}
+                  onKeyDown={e => { if (e.key === "Enter" || e.key === " ") setShowDropdown(v => !v); }}
+                  aria-haspopup="true"
+                  aria-expanded={showDropdown}
+                >
                   <div className="w-12 h-12 rounded-full bg-gradient-to-br from-blue-400 to-green-400 flex items-center justify-center text-white">
                     <User className="w-6 h-6" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    {/* Show random first and last name */}
                     <p className="text-sm text-gray-800 dark:text-white truncate theme-transition">
                       {randomName}
                     </p>
@@ -290,8 +325,48 @@ export default function Dashboard({
                       {randomEmail}
                     </p>
                   </div>
+                  <button
+                    tabIndex={-1}
+                    className="ml-4 px-2 py-1 rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-400 transition-all"
+                    style={{ marginLeft: "1rem" }}
+                    aria-label={showDropdown ? "Close account menu" : "Open account menu"}
+                  >
+                    <svg
+                      className={`w-4 h-4 transform transition-transform duration-200 ${showDropdown ? "rotate-180" : "rotate-0"}`}
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </button>
                 </div>
+                <AnimatePresence>
+                  {showDropdown && (
+                    <motion.div
+                      ref={dropdownRef}
+                      initial={{ opacity: 0, scale: 0.96, y: -10 }}
+                      animate={{ opacity: 1, scale: 1, y: 0 }}
+                      exit={{ opacity: 0, scale: 0.96, y: -10 }}
+                      transition={{ duration: 0.18, ease: "easeInOut" }}
+                      className="absolute left-0 top-full w-full bg-white dark:bg-gray-800 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 z-50 overflow-hidden p-2 space-y-2"
+                      style={{ marginTop: "0.75rem" }}
+                    >
+                      <button
+                        onClick={onLogout}
+                        type="button"
+                        className="w-full flex items-center gap-3 rounded-xl px-3 py-2 hover:bg-red-500 dark:hover:bg-red-600 hover:text-white dark:hover:text-white transition-all duration-200 cursor-pointer"
+                      >
+                        <LogOut className="w-5 h-5" />
+                        <span>{t("nav.logout")}</span>
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
+              {/* Add spacing between account and nav */}
+              <div style={{ height: "2.5rem" }}></div>
 
               <nav className="space-y-2 mb-8">
                 <button
@@ -323,23 +398,13 @@ export default function Dashboard({
                 <LanguageToggle className="rounded-xl p-2 transition-all theme-transition" />
               </div>
 
-              <div className="mt-auto pt-6 border-t border-gray-200 dark:border-gray-700 theme-transition">
-                <Button
-                  onClick={onLogout}
-                  variant="outline"
-                  className="w-full justify-start gap-3 rounded-xl border-gray-200 dark:border-gray-700 hover:bg-red-50 dark:hover:bg-red-900/20 hover:text-red-600 dark:hover:text-red-400 hover:border-red-200 dark:hover:border-red-700 transition-all theme-transition"
-                >
-                  <LogOut className="w-5 h-5" />
-                  <span>{t("nav.logout")}</span>
-                </Button>
-              </div>
             </motion.aside>
           </>
         )}
       </AnimatePresence>
 
       {/* Main Content */}
-      <div className="flex-1 p-4 sm:p-6 md:p-8 overflow-x-hidden">
+      <div className="flex-1 pt-12 p-4 sm:p-6 md:p-8 overflow-x-hidden">
         <div className="md:hidden mb-6 flex items-center gap-4">
           <Button
             variant="outline"
@@ -571,7 +636,7 @@ export default function Dashboard({
                           delay: index * 0.05,
                         }}
                       >
-                        <div className="flex items-center gap-3 sm:gap-4 p-3 sm:p-4 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-all theme-transition">
+                        <div className="flex items-center gap-6 sm:gap-8 p-6 sm:p-8 bg-gray-50 dark:bg-gray-900/50 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-900 transition-all theme-transition">
                           <div
                             className={`w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gradient-to-br ${colors.bg} flex items-center justify-center text-white flex-shrink-0`}
                           >
