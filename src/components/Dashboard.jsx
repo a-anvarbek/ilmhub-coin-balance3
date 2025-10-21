@@ -451,11 +451,16 @@ export default function Dashboard({
                   <div className="absolute bottom-0 left-0 w-40 h-40 md:w-48 md:h-48 bg-white/10 rounded-full -ml-20 -mb-20 md:-ml-24 md:-mb-24"></div>
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-3">
+                      {/* Unique Animation 1: Infinite rotate + scale pulsation */}
                       <motion.div
-                        animate={{ rotate: [0, 360] }}
+                        animate={{
+                          rotate: [0, 360],
+                          scale: [0.9, 1.1, 0.9],
+                        }}
                         transition={{
-                          duration: 3,
+                          duration: 2.5,
                           repeat: Infinity,
+                          repeatType: "loop",
                           ease: "linear",
                         }}
                         className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-white/20 backdrop-blur-sm flex items-center justify-center"
@@ -495,9 +500,22 @@ export default function Dashboard({
               >
                 <Card className="w-full p-6 md:p-8 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition space-y-2 h-48">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition">
+                    {/* Unique Animation 2: Infinite dynamic translation (Y and X) */}
+                    <motion.div
+                      animate={{
+                        y: [-10, 0, 10, 0, -10],
+                        x: [-5, 0, 5, 0, -5],
+                      }}
+                      transition={{
+                        duration: 2.2,
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        ease: "easeInOut",
+                      }}
+                      className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center theme-transition"
+                    >
                       <Coins className="w-5 h-5 md:w-6 md:h-6 text-purple-600 dark:text-purple-400 theme-transition" />
-                    </div>
+                    </motion.div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
                         {t("dashboard.allTimeBalanceLabel")}
@@ -521,9 +539,19 @@ export default function Dashboard({
               >
                 <Card className="w-full p-6 md:p-8 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition space-y-2 h-48">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition">
+                    {/* Unique Animation 3: Infinite scale (pulsing, more pronounced) */}
+                    <motion.div
+                      animate={{ scale: [1, 1.25, 1] }}
+                      transition={{
+                        duration: 1.6,
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        ease: "easeInOut",
+                      }}
+                      className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-orange-100 dark:bg-orange-900/30 flex items-center justify-center theme-transition"
+                    >
                       <Trophy className="w-5 h-5 md:w-6 md:h-6 text-orange-600 dark:text-orange-400 theme-transition" />
-                    </div>
+                    </motion.div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
                         {t("dashboard.centerRankLabel")}
@@ -547,9 +575,22 @@ export default function Dashboard({
               >
                 <Card className="w-full p-6 md:p-8 bg-white dark:bg-gray-800 border-gray-200 dark:border-gray-700 shadow-lg rounded-2xl hover:shadow-xl transition-all theme-transition space-y-2 h-48">
                   <div className="flex items-center gap-4 mb-4">
-                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center theme-transition">
+                    {/* Unique Animation 4: Infinite horizontal wiggle + small rotation */}
+                    <motion.div
+                      animate={{
+                        x: [0, 12, -12, 0],
+                        rotate: [-8, 8, 0, -8],
+                      }}
+                      transition={{
+                        duration: 1.6,
+                        repeat: Infinity,
+                        repeatType: "loop",
+                        ease: "easeInOut",
+                      }}
+                      className="w-12 h-12 md:w-14 md:h-14 rounded-xl bg-green-100 dark:bg-green-900/30 flex items-center justify-center theme-transition"
+                    >
                       <Target className="w-5 h-5 md:w-6 md:h-6 text-green-600 dark:text-green-400 theme-transition" />
-                    </div>
+                    </motion.div>
                     <div className="pl-1">
                       <p className="text-gray-500 dark:text-gray-400 text-xs sm:text-sm theme-transition">
                         {t("dashboard.globalRankLabel")}
